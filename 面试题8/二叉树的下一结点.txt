@@ -1,0 +1,23 @@
+public class Solution {
+    public TreeLinkNode GetNext(TreeLinkNode pNode)
+    {
+        TreeLinkNode p = null;
+        if(pNode == null)
+            return null;
+        //1.该节点存在右子树
+        if(pNode.right != null){
+            p = pNode.right;
+            while(p.left != null){
+                p = p.left;
+            }
+            return p;
+        }
+        //2.该节点不存在右子树，且该节点是父节点的左节点或者是父节点的右节点的情况
+        else{
+            p = pNode;
+            while(p.next != null && p.next.right == p)
+                p = p.next;    
+            }
+            return p.next;
+        }
+}
