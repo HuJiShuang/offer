@@ -1,0 +1,26 @@
+import java.util.Stack;
+
+public class Solution {
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+    
+    public void push(int node) {
+        //当向队列插入数据时，插入到Stack1中
+        stack1.push(node);
+    }
+    
+    public int pop() {
+        //1.首先判断栈2是否为空
+        //1.1如果栈2为空，则把栈1中所有的数据出栈，存到栈2中
+        if(stack2.empty()){
+            if(stack1.empty()){
+                throw new RuntimeException("Queue is empty");
+            }
+            while(!stack1.empty()){
+                stack2.push(stack1.pop());
+            }
+        }
+        //每次删除栈2的栈顶相当于删除了队列的队头
+        return stack2.pop();
+    }
+}
