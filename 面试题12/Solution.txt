@@ -1,0 +1,42 @@
+import java.util.Arrays;
+public class Solution {
+    public boolean hasPath(char[] matrix, int rows, int cols, char[] str)
+    {
+        //1.首先考虑边界条件，如果二维数组为空，行长度或者列长度为0，字符串为空时，这些都是不存在路径的情况
+        if(matrix==null||rows<1||cols<1||str==null)
+            return false;
+        //定义一个和二维数组长度一样的数组，用来标识该方格是否被走过
+        boolean[] flags = new boolean[rows*cols];
+        boolean flag = false;
+        Arrays.fill(flags,false);        //相当于c++中的memset
+        int pathLength = 0;            //字符串的索引位置
+        //2.从数组的左上角开始，循环遍历数组，该位置如果对应字符串中的某个位置，那么久找该字符后边的字符是否对应该位置的上，下，左，右某个位置，
+            //以此类推，重复这个过程
+        for(int row=0;row<rows;row++){
+            for(int col=0;col<cols;col++)
+                if(hasPathCore(matrix,rows,cols,row,col,str,pathLength,flags)){
+                    return true;
+                }
+        }
+        return false;
+    }
+    public boolean hasPathCore(char[] matrix, int rows, int cols, int row, int col, char[] str, Integer pathLength,boolean[] flags){
+        if(pathLength>=str.length)
+            return true;
+        boolean hasPath = false;
+        //3.如果该位置对应第字符等于字符串中当前位置
+        if(row>=0&&col>=0&&row<rows&&col<cols&&matrix[row*cols+col]==str[pathLength]&&!flags[row*cols+col]){
+            pathLength++;
+            flags[row*cols+col] = true;
+            hasPath = hasPathCore(matrix,rows,cols,row+1,col,str,pathLength,flags) ||
+                      hasPathCore(matrix,rows,cols,row-1,col,str,pathLength,flags) ||
+                      hasPathCore(matrix,rows,cols,row,col+1,str,pathLength,flags) ||
+                      hasPathCore(matrix,rows,cols,row,col-1,str,pathLength,flags);
+            if(!hasPath){
+                pathLength--;
+                flags[row*cols+col] = false;
+            }
+        }
+        return hasPath;
+    }
+}
