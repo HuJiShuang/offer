@@ -1,0 +1,44 @@
+import java.util.ArrayList;
+public class Solution {
+    public int minNumberInRotateArray(int [] array) {
+        int length = array.length;
+        //1.首先需要判断数组的长度
+        //1.1 如果数组长度为0,则返回0
+        if(length==0)
+            return 0;
+        //1.2如果数组长度为1,则返回地一个元素
+        else if(length==1)
+            return array[0];
+        //1.3如果数组的长度大于等于2,则需要使用二分查找
+        else{
+            //2当旋转的长度为0时，即没有进行旋转，此时数组是有序的，那么第一个元素就是最小的元素
+            //通过判断第一个元素和最后一个元素的大小就可以知道
+            int startIndex = 0;
+            int endIndex = length-1;
+            //2.1如果第一个元素小于最后一个元素，则说明这个数组是有序的
+            if(array[startIndex]<array[endIndex])
+                return array[startIndex];
+            while((endIndex-startIndex)>1){
+                //3.使用二分查找最小元素
+                int midIndex = (startIndex+endIndex)/2;
+                if(array[midIndex]==array[endIndex]&&array[midIndex]==array[startIndex]){
+                     int minValue = Integer.MAX_VALUE;
+                    for(int i=0;i<length;i++){
+                        if(array[i]<minValue)
+                            minValue = array[i];
+                    }
+                    return minValue;
+                }
+                //如果中间值大于第一索引值，移动第一索引位置
+                if(array[midIndex]>=array[startIndex])
+                    startIndex = midIndex;
+                //如果中间值小于第二索引值，移动第二索引位置
+                else if(array[midIndex]<=array[endIndex])
+                    endIndex = midIndex;
+                //如果中间值等于第一和第二索引值，那么按顺序查找
+            }
+            //退出while循环后，此时最小值便是endIndex所指的值
+            return array[endIndex];
+        }
+    }
+}
