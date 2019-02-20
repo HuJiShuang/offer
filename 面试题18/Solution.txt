@@ -1,0 +1,37 @@
+﻿/*
+ public class ListNode {
+    int val;
+    ListNode next = null;
+
+    ListNode(int val) {
+        this.val = val;
+    }
+}
+*/
+public class Solution {
+    public ListNode deleteDuplication(ListNode pHead)
+    {
+        //1.新建一个头节点，用于方便找到要删除节点的前节点
+        ListNode startHead = new ListNode(0);
+        startHead.next = pHead;
+        ListNode preNode = startHead;
+        ListNode currentNode = pHead;
+        //2.从头开始遍历节点直到找到重复节点
+        //while内的组合循环条件缺一不可，是避免出现空指针的情况发生
+        while(currentNode!=null &&currentNode.next!=null){
+            if(currentNode.val == currentNode.next.val ){
+                //找到后面大于重复节点的第一个节点
+                while(currentNode.next!=null && currentNode.next.val == currentNode.val){
+                    currentNode = currentNode.next;
+                }
+                preNode.next = currentNode.next;
+                currentNode = currentNode.next;
+            }
+            else{
+                preNode = preNode.next;
+                currentNode = currentNode.next;
+            }
+        }
+        return startHead.next;
+    }
+}
