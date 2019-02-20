@@ -1,0 +1,47 @@
+public class Solution {
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+         //由于是单向链表，从第一个重合点开始，两个链表就不会再分开，组成的形状类似于一个Y
+        //考虑边界条件，如果两个链表其中任意一个为空的话，那么就不存在公共节点
+        if(pHead1==null || pHead2==null)
+            return null;
+        //1.首先遍历两个链表，记录他们的长度
+        int count1 = lengthCount(pHead1);
+        int count2 = lengthCount(pHead2);
+        //2.判断两个链表哪一个更长
+        //2.1如果链表1比链表2要长的话
+        if(count1>count2){
+           int n = count1-count2;
+           while(n>0){
+               pHead1 = pHead1.next;
+               n--;
+           }
+        }
+        //2.2如果链表2比链表1要长
+        else if(count2>count1){
+            int n = count2-count1;
+            while(n>0){
+                pHead2 = pHead2.next;
+                n--;
+            }
+        }
+        //3.两个链表从当前位置开始遍历，直到找到公共节点或者遍历结束为止
+        while(pHead1!=null){
+            if(pHead1.val == pHead2.val)
+                return pHead1;
+            else{
+                pHead1 = pHead1.next;
+                pHead2 = pHead2.next;
+            }
+        }
+        //当遍历结束后都没有找到公共节点时，此时pHead1为空，返回即可
+        return pHead1;
+    }
+    public int lengthCount(ListNode pHead){
+        int count = 0;
+        while(pHead!=null){
+            count++;
+            pHead=pHead.next;
+        }
+        return count;
+    }
+}
