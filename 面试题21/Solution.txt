@@ -1,0 +1,32 @@
+﻿public class Solution {
+    public void reOrderArray(int [] array) {
+        int length = array.length;
+        //1.考虑边界条件
+        if(array == null || length == 0){
+            return;
+        }
+        //2.定义两个指针，分别指向数组的头位置后尾位置
+        int start = 0;
+        int end = length - 1;
+        while(start < end){
+            //2.1迭代start指针，直到它找到第一个偶数为止
+            while(start<end && !isEven(array[start]))
+                start++;
+            //2.2迭代end指针，直到它找到第一个奇数为止
+            while(start<end && isEven(array[end]))
+                end--;
+            if(start<end){
+                array[end] = array[start] + array[end];
+                array[start] = array[end] - array[start];
+                array[end] = array[end] - array[start];
+            }
+        }
+    }
+    //用于判断当前数据是奇数还是偶数
+    public boolean isEven(int n){
+        if((n & 0x1) == 1)    //条件成立为奇数
+            return false;
+        else
+            return true;
+    }
+}
