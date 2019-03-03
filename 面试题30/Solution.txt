@@ -1,0 +1,24 @@
+﻿import java.util.Stack;
+  
+public class Solution {
+  
+    Stack<Integer> stack  = new Stack<>();
+    Stack<Integer> subStack  = new Stack<>();
+    public void push(int node) {
+        stack.push(node);
+        subStack.push(subStack.empty()?node:Math.min(node,subStack.peek()));
+    }
+      
+    public void pop() {
+        stack.pop();
+        subStack.pop();
+    }
+      
+    public int top() {
+        return stack.peek();
+    }
+      
+    public int min() {
+        return subStack.peek();
+    }
+}
