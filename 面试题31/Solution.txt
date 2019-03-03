@@ -1,0 +1,20 @@
+﻿import java.util.Stack;
+ 
+public class Solution {
+    public boolean IsPopOrder(int [] pushA,int [] popA) {
+      //定义栈用来存储第一个数组
+      Stack<Integer> stack = new Stack<>();
+      int index = 0;  //第一个数组的索引
+      for(int j=0;j<popA.length;j++){
+          //如果入栈数组索引位置的数字不等于出栈数组的话，就把该数组入栈
+          while(stack.empty() || popA[j] != stack.peek()){
+              if(index == pushA.length)
+                  return false;
+              stack.push(pushA[index]);
+              index++;
+          }
+          stack.pop();   
+      }
+        return true;
+    }
+}
