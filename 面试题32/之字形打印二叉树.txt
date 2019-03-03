@@ -1,0 +1,47 @@
+﻿import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
+ 
+/*
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+ 
+    public TreeNode(int val) {
+        this.val = val;
+ 
+    }
+ 
+}
+*/
+public class Solution {
+    public ArrayList<ArrayList<Integer> > Print(TreeNode pRoot) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        int flag = -1;    //用于标志当前行的打印顺序
+        if(pRoot == null)
+             return list;
+        queue.offer(pRoot);
+        while(!queue.isEmpty()){
+            ArrayList<Integer> listChild = new ArrayList<>();
+            int cnt = queue.size();
+            flag = -flag;
+            while(cnt-- > 0){
+                TreeNode node = null;
+                node = queue.poll();
+                if(node == null)
+                    continue;
+                if(flag == 1)
+                    listChild.add(node.val);
+                else
+                    listChild.add(0,node.val);
+                queue.offer(node.left);
+                queue.offer(node.right);
+            }
+            if(listChild.size() != 0)
+                list.add(listChild);
+        }
+        return list;
+    }
+}
